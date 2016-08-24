@@ -35,8 +35,8 @@ router.post('/', function(req, res, next) {
     name: req.body.name,
     customerId: null
   }).then(function(result) {
-    return res.json(result);
-    // return res.redirect('/customers');
+    // return res.json(result);
+    return res.redirect('/customers');
   }).catch(function(err) {
     throw err;
   });
@@ -45,18 +45,20 @@ router.put('/:id', function(req, res, next) {
   req.user.makeEmployee().then(function(result) {
     return result.save();
   }).then(function(result) {
-    return res.json(result);
-    // return res.redirect('/departments/' + result.id);
+    // return res.json(result);
+    return res.redirect('/departments');
   }).catch(function(err) {
     throw err;
   })
 });
 //@TODO: delete customer
 router.delete('/:id', function(req, res, next) {
-  User.delete({
-
+  User.destroy({
+    where: {
+      id: req.params.id
+    }
   }).then(function(result) {
-    res.redirect(resu)
+    return res.redirect('/customers');
   }).catch(function(err) {
     throw err;
   });

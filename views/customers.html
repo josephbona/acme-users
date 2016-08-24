@@ -1,0 +1,38 @@
+{% extends 'layout.html' %}
+{% block content %}
+  <div class="well">
+    <form action="/customers" method="POST">
+      <div class="form-group">
+        <input type="text" class="form-control" name="name" placeholder="Customer Name">
+      </div>
+      <button type="submit" class="btn btn-primary">Save Customer</button>
+    </form>
+  </div>
+  <div class="tab-content">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for customer in customers %}
+        <tr>
+          <td class="name">
+            {{customer.name}}
+          </td>
+          <td>
+            <form style="display: inline; margin-right: 8px;" action="/customers/{{customer.id}}?_method=PUT" method="POST">
+              <button class="btn btn-info" type="submit">Make Employee</button>
+            </form>
+            <form style="display: inline" action="/customers/{{customer.id}}?_method=DELETE" method="POST">
+              <button class="btn btn-danger" type="submit">Delete Customer</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
