@@ -1,0 +1,25 @@
+{
+  "name": "acme-employees",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "test": "TEST=true nodemon --exec 'mocha --reporter spec --timeout 1000 test/*.test.js || true'"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.0.2",
+    "nodemon": "^1.10.2"
+  },
+  "dependencies": {
+    "bluebird": "^3.4.1",
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "pg": "^6.1.0",
+    "sequelize": "^3.24.1",
+    "swig": "^1.4.2"
+  }
+}

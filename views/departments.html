@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+{% block content %}
+  <div class="well">
+    <form action="/departments/{{thisDepartment.id}}/employees" method="POST">
+      <div class="form-group">
+        <input type="text" class="form-control" name="name" placeholder="Employee Name">
+      </div>
+      <button type="submit" class="btn btn-primary">Save Employee</button>
+    </form>
+  </div>
+  {% if defaultRoute %}
+  <div class="well well-sm">
+    <h4>This is the default department</h4>
+  </div>
+  {% endif %}
+  <ul class="nav nav-tabs" role="tablist">
+    {% for department in departments %}
+      {% if department.isDefault %}
+        <li><a href="/departments/{{department.id}}">{{department.name}}</a></li>
+      {% else %}
+        <li><a href="/departments/{{department.id}}">{{department.name}}</a></li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+  <div class="tab-content">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for employee in employees %}
+        <tr>
+          <td>
+            {{employee.name}}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
