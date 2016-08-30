@@ -18,17 +18,14 @@ var Department = db.define('Department', {
           isDefault: true
         }
       }).then(function(result) {
-        if(!result) {
-          Department.create({
-            name: 'Human Resources',
-            isDefault: true
-          }).then(function(result) {
-            return result;
-          });
-        }
-        return result;
+        if(result)
+          return result;
+        return Department.create({
+          name: 'Human Resources',
+          isDefault: true
+        });
       }).catch(function(err) {
-        throw err;
+        throw err;//good.. 
       });
     }
   },
@@ -46,14 +43,12 @@ var Department = db.define('Department', {
       });
     },
     getEmployees: function() {
-      var current = this;
       return User.findAll({
         where: {
-          departmentId: current.id
+          departmentId: this.id
         }
-      }).then(function(results) {
-        return results;
-      }).catch(function(err) {
+      })
+      .catch(function(err) {
         throw err;
       });
     }

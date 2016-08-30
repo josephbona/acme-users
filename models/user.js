@@ -14,22 +14,13 @@ var User = db.define('User', {
         where: {
           id: departmentId
         }
-      }).then(function(results) {
-        return results;
-      }).catch(function(err) {
+      })
+      .catch(function(err) {
         throw err;
       })
     }
   },
   instanceMethods: {
-    // getDepartment: function() {
-    //   User.find({
-    //     where: {
-
-    //     },
-    //     include: [Department]
-    //   })
-    // }
     makeEmployee: function() {
       var current = this;
       return Department.getDefault().then(function(result) {
@@ -43,4 +34,5 @@ var User = db.define('User', {
 });
 
 User.belongsTo(Department, {as:'department'});
+Department.hasMany(User, { foreignKey: 'departmentId' });
 module.exports = User;

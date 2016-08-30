@@ -1,24 +1,18 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../models/user');
-var Department = require('../models/department');
 
 router.param('id', function(req, res, next, val) {
-  User.findOne({
-    where: {
-      id: val
-    }
-  }).then(function(result) {
-    if(result) {
-      req.user = result;
-      return next();
-    } else {
-      return res.sendStatus(404);
-    }
-  }).catch(function(err) {
-    throw err;
-  });
+  User.findById(val)
+    .then(function(employee){
+      if(!employee)
+        return next('could not be found');
+      res.locals.user = employee;
+      next();
+    })
+    .catch(next);
 });
+
 router.get('/', function(req, res, next) {
   User.findAll({
     where: {
@@ -26,10 +20,10 @@ router.get('/', function(req, res, next) {
     }
   }).then(function(results) {
     res.render('customers', {currentpage: 'customers', customers: results})
-  }).catch(function(err) {
-    throw err;
-  });
+  })
+  .catch(next);
 });
+
 router.post('/', function(req, res, next) {
   User.create({
     name: req.body.name,
@@ -41,8 +35,10 @@ router.post('/', function(req, res, next) {
     throw err;
   });
 });
+
 router.put('/:id', function(req, res, next) {
-  req.user.makeEmployee().then(function(result) {
+  req.locals.user.makeEmployee()
+    .then(function(result) {
     return result.save();
   }).then(function(result) {
     // return res.json(result);
@@ -59,9 +55,8 @@ router.delete('/:id', function(req, res, next) {
     }
   }).then(function(result) {
     return res.redirect('/customers');
-  }).catch(function(err) {
-    throw err;
-  });
+  })
+  .catch(next);
 });
 
 module.exports = router;
